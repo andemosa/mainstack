@@ -1,8 +1,13 @@
+import { useState } from "react";
+import styled from "styled-components";
+import useSWRImmutable from "swr/immutable";
+import axios from "axios";
+
+import LoadingSpinner from "components/LoadingSpinner";
 import Locations from "components/Charts/Locations";
 import PageViews from "components/Charts/PageViews";
 import Referrals from "components/Charts/Referrals";
-import { useState } from "react";
-import styled from "styled-components";
+import Navbar from "./Navbar";
 
 const tagsData = [
   {
@@ -31,47 +36,74 @@ const tagsData = [
   },
 ];
 
+const fetcher = (url) => axios.get(url).then((res) => res.data);
+
 const BodyComp = () => {
+  const { data, error } = useSWRImmutable(
+    "http://test.api.mainstack.io/",
+    fetcher
+  );
+
   const [display, setDisplay] = useState(0);
+
+  if (!data && !error)
+    return (
+      <Container>
+        <LoadingSpinner />
+      </Container>
+    );
+
+  if (error)
+    return (
+      <Container>
+        <Error>An error occurred</Error>
+      </Container>
+    );
 
   return (
     <Container>
-      <Nav>
-        <p>Dashboard</p>
-      </Nav>
-      <Body>
-        <Headings>
-          <div>
-            <h1>Good morning, Blessing ⛅️</h1>
-            <p>Check out your dashboard summary.</p>
-          </div>
-          <div>
-            <p>View analytics</p>
-          </div>
-        </Headings>
-        <Tags>
-          {tagsData.map((item) => (
-            <Tag
-              key={item.id}
-              onClick={() => setDisplay(item.id)}
-              current={display === item.id}
-            >
-              {item.label}
-            </Tag>
-          ))}
-        </Tags>
-        <Card>
-          <PageViews />
-        </Card>
-        <Options>
+      <NavCon>
+        <Navbar />
+      </NavCon>
+
+      <Wrapper>
+        <Top>
+          <p>Dashboard</p>
+        </Top>
+        <Body>
+          <Headings>
+            <div>
+              <h1>Good morning, Blessing ⛅️</h1>
+              <p>Check out your dashboard summary.</p>
+            </div>
+            <div>
+              <p>View analytics</p>
+            </div>
+          </Headings>
+          <Tags>
+            {tagsData.map((item) => (
+              <Tag
+                key={item.id}
+                onClick={() => setDisplay(item.id)}
+                current={display === item.id}
+              >
+                {item.label}
+              </Tag>
+            ))}
+          </Tags>
           <Card>
-            <Locations />
+            <PageViews obj={data?.graph_data?.views} />
           </Card>
-          <Card>
-            <Referrals />
-          </Card>
-        </Options>
-      </Body>
+          <Options>
+            <Card>
+              <Locations data={data?.top_locations} />
+            </Card>
+            <Card>
+              <Referrals data={data?.top_sources} />
+            </Card>
+          </Options>
+        </Body>
+      </Wrapper>
     </Container>
   );
 };
@@ -83,12 +115,45 @@ const Container = styled.section`
   flex: 7;
 `;
 
-const Nav = styled.div`
+const NavCon = styled.div`
+  display: none;
+  @media (max-width: 992px) {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+  }
+`;
+
+const Error = styled.h3`
+  text-align: center;
+  margin: 2em 0;
+`;
+
+const Wrapper = styled.div`
+  @media (max-width: 992px) {
+    padding-top: 3em;
+  }
+`;
+
+const Top = styled.div`
   padding: 1.5rem 3rem;
+  @media (max-width: 1200px) {
+    padding: 1.5rem;
+  }
+  @media (max-width: 992px) {
+    display: none;
+  }
 `;
 
 const Body = styled.section`
   padding: 1.5rem 3rem;
+  @media (max-width: 1200px) {
+    padding: 1.5rem;
+  }
 `;
 
 const Headings = styled.div`
@@ -131,6 +196,12 @@ const Tag = styled.div`
   background: ${({ current }) => (current ? "#FFDDCD" : "#ffffff")};
   border: ${({ current }) =>
     current ? "1px solid #FF5403" : "1px solid #eff1f6"};
+  @media (max-width: 992px) {
+    font-size: 12px;
+  }
+  @media (max-width: 576px) {
+    font-size: 8px;
+  }
 `;
 
 const Card = styled.div`
@@ -146,5 +217,8 @@ const Options = styled.div`
   margin: 20px 0;
   & > div {
     flex: 1;
+  }
+  @media (max-width: 992px) {
+    flex-direction: column;
   }
 `;

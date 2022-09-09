@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import styled from "styled-components";
 import {
   AreaChart,
@@ -11,50 +12,17 @@ import {
 
 import InfoIcon from "components/Icons/InfoIcon";
 
-const data = [
-  {
-    name: "2022-07-31",
-    uv: 1,
-  },
-  {
-    name: "2022-08-01",
-    uv: 3,
-  },
-  {
-    name: "2022-08-02",
-    uv: 3,
-  },
-  {
-    name: "2022-08-03",
-    uv: 7,
-  },
-  {
-    name: "2022-08-04",
-    uv: 8,
-  },
-  {
-    name: "2022-08-05",
-    uv: 5,
-  },
-  {
-    name: "2022-08-06",
-    uv: 20,
-  },
-  {
-    name: "2022-08-07",
-    uv: 50,
-  },
-  {
-    name: "2022-08-08",
-    uv: 100,
-  },
-  {
-    name: "2022-08-09",
-    uv: 2,
-  },
-];
+const formatObj = (obj) => {
+  return Object.keys(obj).map((key) => ({
+    name: key,
+    views: obj[key],
+  }));
+};
 
-const PageViews = () => {
+const PageViews = ({ obj }) => {
+
+  const data = useMemo(() => formatObj(obj), [obj]);
+
   return (
     <Container>
       <Headings>
@@ -85,7 +53,7 @@ const PageViews = () => {
             <Tooltip />
             <Area
               type="monotone"
-              dataKey="uv"
+              dataKey="views"
               stroke="#FF5403"
               fill="#ff5403"
               fillOpacity={10}
@@ -126,4 +94,5 @@ const Headings = styled.div`
 const Body = styled.div`
   height: 300px;
   width: 100%;
+  margin: 1em 0 0;
 `;
