@@ -37,8 +37,8 @@ const Locations = ({ data }) => {
                 data={data}
                 cx={"50%"}
                 cy={"50%"}
-                innerRadius={25}
-                outerRadius={50}
+                innerRadius={20}
+                outerRadius={40}
                 paddingAngle={0}
                 dataKey="percent"
                 label={({
@@ -125,6 +125,10 @@ const Right = styled.div`
   flex: 1;
   height: 250px;
   padding-left: 10px;
+  @media (max-width: 576px) {
+    flex: 2;
+    padding: 0;
+  }
 `;
 
 const Row = styled.div`
