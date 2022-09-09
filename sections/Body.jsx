@@ -40,7 +40,7 @@ const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const BodyComp = () => {
   const { data, error } = useSWRImmutable(
-    "http://test.api.mainstack.io/",
+    "https://test.api.mainstack.io/",
     fetcher
   );
 
