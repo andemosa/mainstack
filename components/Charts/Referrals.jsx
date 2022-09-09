@@ -90,6 +90,9 @@ export default Referrals;
 
 const Container = styled.div`
   padding: 10px;
+  @media (max-width: 576px) {
+    font-size: 12px;
+  }
 `;
 
 const Headings = styled.div`
@@ -101,6 +104,9 @@ const Headings = styled.div`
     color: #ff5403;
     font-size: 12px;
     cursor: pointer;
+    @media (max-width: 576px) {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -111,13 +117,17 @@ const Body = styled.div`
   justify-content: space-between;
   gap: 10px;
   align-items: center;
+  @media (max-width: 576px) {
+    gap: 5px;
+  }
 `;
 
 const Left = styled.div`
   flex: 1;
   font-size: 12px;
   @media (max-width: 576px) {
-    font-size: 10px;
+    font-size: 8px;
+    flex: 2;
   }
 `;
 
@@ -126,7 +136,7 @@ const Right = styled.div`
   height: 250px;
   padding-left: 10px;
   @media (max-width: 576px) {
-    flex: 2;
+    flex: 3;
     padding: 0;
   }
 `;
@@ -162,6 +172,9 @@ const Row = styled.div`
 const Label = styled.div`
   & > span:first-of-type {
     text-transform: capitalize;
+  }
+  @media (max-width: 576px) {
+    font-size: 9px;
   }
 `;
 

@@ -135,7 +135,7 @@ const Error = styled.h3`
 
 const Wrapper = styled.div`
   @media (max-width: 992px) {
-    padding-top: 3em;
+    padding-top: 4em;
   }
 `;
 
@@ -154,6 +154,12 @@ const Body = styled.section`
   @media (max-width: 1200px) {
     padding: 1.5rem;
   }
+  @media (max-width: 576px) {
+    padding: 0.5rem;
+  }
+  @media (max-width: 576px) {
+    font-size: 10px;
+  }
 `;
 
 const Headings = styled.div`
@@ -169,12 +175,18 @@ const Headings = styled.div`
     & > p {
       color: #31373d;
       font-size: 13px;
+      @media (max-width: 576px) {
+        font-size: 10px;
+      }
     }
   }
   & > div:last-of-type {
     color: #ff5403;
     font-size: 13px;
     cursor: pointer;
+    @media (max-width: 576px) {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -201,6 +213,9 @@ const Tag = styled.div`
   }
   @media (max-width: 576px) {
     font-size: 8px;
+  }
+  @media (max-width: 376px) {
+    font-size: 6px;
   }
 `;
 
